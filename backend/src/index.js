@@ -17,6 +17,15 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'Jerney API is vibing ✨' });
 });
 
+app.get('/api/ready', async (req, res) => {
+  try {
+    await db.pool.query('SELECT 1');
+    res.json({ status: 'ready' });
+  } catch (err) {
+    res.status(503).json({ status: 'not ready' });
+  }
+});
+
 // Routes
 app.use('/api/posts', postRoutes);
 app.use('/api/comments', commentRoutes);
