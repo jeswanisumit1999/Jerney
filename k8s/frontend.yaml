@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jerney-frontend
+  namespace: jerney
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jerney-frontend
+  template:
+    metadata:
+      labels:
+        app: jerney-frontend
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 101
+      containers:
+      - name: frontend
+        image: sumitjeswani/jerney-frontend:v1
+        ports:
+        - containerPort: 80
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 3
+          periodSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        resources:
+          requests:
+            cpu: "50m"
+            memory: "64Mi"
+          limits:
+            cpu: "150m"
+            memory: "128Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jerney-frontend-svc
+  namespace: jerney
+spec:
+  selector:
+    app: jerney-frontend
+  ports:
+  - port: 80
+    targetPort: 80
