@@ -18,7 +18,7 @@ spec:
         runAsUser: 101
       containers:
       - name: frontend
-        image: sumitjeswani/jerney-frontend:v1
+        image: sumitjeswani/jerney-frontend:v2
         ports:
         - containerPort: 80
         readinessProbe:
