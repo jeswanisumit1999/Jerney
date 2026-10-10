@@ -14,7 +14,7 @@ metadata:
   name: jerney-backend
   namespace: jerney
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: jerney-backend
@@ -26,6 +26,13 @@ spec:
       securityContext:
         runAsNonRoot: true
         runAsUser: 100
+      topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: DoNotSchedule
+        labelSelector:
+          matchLabels:
+            app: jerney-backend
       containers:
       - name: backend
         image: sumitjeswani/jerney-backend:v1
