@@ -37,8 +37,8 @@ echo "==> Waiting for PostgreSQL StatefulSet..."
 kubectl rollout status statefulset/postgres \
   -n "$NAMESPACE" --timeout=180s
 
-echo "==> Deploying backend and frontend..."
-kubectl apply -f k8s/backend.yaml -f k8s/frontend.yaml
+echo "==> Deploying backend and frontend... and pdb"
+kubectl apply -f k8s/backend.yaml -f k8s/frontend.yaml -f k8s/pdb.yaml
 
 echo "==> Waiting for backend deployment..."
 kubectl rollout status deployment/jerney-backend \
