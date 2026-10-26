@@ -1,0 +1,21 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: jerney-backend-pdb
+  namespace: jerney
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: jerney-backend
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: jerney-frontend-pdb
+  namespace: jerney
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: jerney-frontend
